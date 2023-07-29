@@ -48,7 +48,7 @@ class Main extends PluginBase implements Listener{
     public function rewardPlayer($player)  {
       $this->getServer()->broadcastMessage("§6" . $player->getName() . " Guessed The Word Correctly.\n§6The Word Was §e" . $this->word);
       if ($this->rewardEnabled)  {
-        BedrockEconomy::getInstance()->addMoney($player, $this->reward);
+        BedrockEconomyAPI::legacy()->addToPlayerBalance($player, $this->reward);
         }
     }
 
