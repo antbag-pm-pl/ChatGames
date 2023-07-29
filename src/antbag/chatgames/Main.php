@@ -25,7 +25,7 @@ class Main extends PluginBase implements Listener{
         }
         $this->loadWords();
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
-        $this->getScheduler()->scheduleDelayedTask(new Task($this), (20 * 60 * $this->getConfig()->get("Scramble-Time")));
+        $this->getScheduler()->scheduleDelayedTask(new WordTask($this), (20 * 60 * $this->getConfig()->get("Scramble-Time")));
     }
 
     public function onChat(playerChatEvent $event) {
@@ -66,6 +66,6 @@ class Main extends PluginBase implements Listener{
                 $player->sendMessage("§bTry to be the first player to unscramble §e". str_shuffle($this->word) . "!");
             }
         }
-        $this->getScheduler()->scheduleDelayedTask(new Task($this), (20 * 60 * $this->getConfig()->get("Scramble-Time")));
+        $this->getScheduler()->scheduleDelayedTask(new WordTask($this), (20 * 60 * $this->getConfig()->get("Scramble-Time")));
     }
 }
