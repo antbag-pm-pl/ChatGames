@@ -13,7 +13,7 @@ class Main extends PluginBase implements Listener{
     public float $reward;
     public bool $rewardEnabled = false;
     public array $words = [];
-
+    public static $instance;
 
     public function onEnable() : void {
         if ($this->getConfig()->get("Reward-Enabled")) {
@@ -26,6 +26,7 @@ class Main extends PluginBase implements Listener{
         $this->loadWords();
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
         $this->getScheduler()->scheduleDelayedTask(new WordTask($this), (20 * 60 * $this->getConfig()->get("Scramble-Time")));
+        self::$instance = $this;
     }
 
     public function onChat(playerChatEvent $event) {
@@ -68,4 +69,6 @@ class Main extends PluginBase implements Listener{
         }
         $this->getScheduler()->scheduleDelayedTask(new WordTask($this), (20 * 60 * $this->getConfig()->get("Scramble-Time")));
     }
+    public static function getInstance(): Main{
+        return self::$instance;
 }
