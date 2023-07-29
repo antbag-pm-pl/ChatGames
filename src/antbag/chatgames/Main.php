@@ -5,7 +5,7 @@ namespace antbag\chatgames;
 use pocketmine\plugin\PluginBase;
 use pocketmine\event\player\PlayerChatEvent;
 use pocketmine\event\Listener;
-use cooldogedev\bedrockeconomy\BedrockEconomy;
+use cooldogedev\BedrockEconomy\api\BedrockEconomyAPI;
 
 class Main extends PluginBase implements Listener{
 
