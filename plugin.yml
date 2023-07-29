@@ -3,3 +3,4 @@ version: 1.0.0-ALPHA-0.1
 api: 5.0.0
 author: antbag
 main: antbag\chatgames\Main
+softdepend: ["BedrockEconomy"]
