@@ -5,7 +5,6 @@ namespace antbag\chatgames;
 use pocketmine\plugin\PluginBase;
 use pocketmine\event\player\PlayerChatEvent;
 use pocketmine\event\Listener;
-use onebone\economyapi\EconomyAPI;
 use cooldogedev\bedrockeconomy\BedrockEconomy;
 
 class Main extends PluginBase implements Listener{
@@ -20,7 +19,7 @@ class Main extends PluginBase implements Listener{
         if ($this->getConfig()->get("Reward-Enabled")) {
             $this->rewardEnabled = true;
         }
-        if (!$this->getServer()->getPluginManager()->getPlugin("") && $this->rewardEnabled == true) {
+        if (!$this->getServer()->getPluginManager()->getPlugin("BedrockEconomy") && $this->rewardEnabled == true) {
             $this->getLogger()->warning("Reward has been disabled since you do not have EconomyAPI installed on your server.");
             $this->rewardEnabled = false;
         }
