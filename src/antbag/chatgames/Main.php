@@ -45,10 +45,10 @@ class Main extends PluginBase implements Listener{
             $this->words[] = $word;
         }
     }
-    public function playerWon($player)  {
-        $this->getServer()->broadcastMessage("§6" . $player->getName() . " Guessed The Word Correctly.\n§6The Word Was §e" . $this->word);
-        if ($this->rewardEnabled)  {
-            BedrockEconomy::getInstance()->addMoney($player, $this->reward);
+    public function rewardPlayer($player)  {
+      $this->getServer()->broadcastMessage("§6" . $player->getName() . " Guessed The Word Correctly.\n§6The Word Was §e" . $this->word);
+      if ($this->rewardEnabled)  {
+        BedrockEconomy::getInstance()->addMoney($player, $this->reward);
         }
     }
 
@@ -58,12 +58,12 @@ class Main extends PluginBase implements Listener{
             $this->reward = mt_rand($this->getConfig()->get("Min-Reward"), $this->getConfig()->get("Max-Reward"));
         }
         foreach($this->getServer()->getOnlinePlayers() as $player) {
-            if ($this->rewardEnabled) {
-                $player->sendMessage("§bFirst Player To Unscramble The Word §e". str_shuffle($this->word) ." §bWill Receive $". $this->reward ."!");
+          if ($this->rewardEnabled) {
+            $player->sendMessage("§bFirst Player To Unscramble The Word §e". str_shuffle($this->word) ." §bWill Receive $". $this->reward ."!");
             }
             else
             {
-                $player->sendMessage("§bTry to be the first player to unscramble §e". str_shuffle($this->word) . "!");
+            $player->sendMessage("§bTry to be the first player to unscramble §e". str_shuffle($this->word) . "!");
             }
         }
         $this->getScheduler()->scheduleDelayedTask(new WordTask($this), (20 * 60 * $this->getConfig()->get("Scramble-Time")));
