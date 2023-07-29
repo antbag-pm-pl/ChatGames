@@ -1,6 +1,6 @@
 <?php
 
-namespace antbag\chatgames;
+namespace antbag\chatgames\Task;
 
 use pocketmine\scheduler\Task;
 
