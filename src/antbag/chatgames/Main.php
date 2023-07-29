@@ -11,16 +11,12 @@ class Main extends PluginBase implements Listener{
 
     public ?string $word = null;
     public float $reward;
-    public bool $rewardEnabled = false;
     public array $words = [];
     public static $instance;
 
     public function onEnable() : void {
-        if ($this->getConfig()->get("Reward-Enabled")) {
-            $this->rewardEnabled = true;
-        }
-        if (!$this->getServer()->getPluginManager()->getPlugin("BedrockEconomy") && $this->rewardEnabled == true) {
-            $this->getLogger()->warning("Reward has been disabled since you do not have EconomyAPI installed on your server.");
+        if (!$this->getServer()->getPluginManager()->getPlugin("BedrockEconomy")) {
+            $this->getLogger()->warning("Reward has been disabled since you do not have BedrockEconomy installed on your server.");
             $this->rewardEnabled = false;
         }
         $this->loadWords();
@@ -36,6 +32,7 @@ class Main extends PluginBase implements Listener{
         if (strtolower($msg) == strtolower($this->word)) {
             $event->cancel();
             $this->rewardPlayer($player);
+            $this->loadWords();
             $this->word = null;
         }
     }
@@ -48,9 +45,8 @@ class Main extends PluginBase implements Listener{
     }
     public function rewardPlayer($player)  {
       $this->getServer()->broadcastMessage("§6" . $player->getName() . " Guessed The Word Correctly.\n§6The Word Was §e" . $this->word);
-      if ($this->rewardEnabled)  {
         BedrockEconomyAPI::legacy()->addToPlayerBalance($player, $this->reward);
-        }
+        
     }
 
     public function scrambleWord() {
@@ -60,10 +56,8 @@ class Main extends PluginBase implements Listener{
         }
         foreach($this->getServer()->getOnlinePlayers() as $player) {
           if ($this->rewardEnabled) {
-            $player->sendMessage("§bFirst Player To Unscramble The Word §e". str_shuffle($this->word) ." §bWill Receive $". $this->reward ."!");
-            }
-            else
-            {
+            $player->sendMessage("§bUnscramble The Word §e". str_shuffle($this->word) ." §bWill Receive $". $this->reward ."!");
+            } else {
             $player->sendMessage("§bTry to be the first player to unscramble §e". str_shuffle($this->word) . "!");
             }
         }
