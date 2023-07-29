@@ -5,6 +5,7 @@ branches:
 projects:
   ChatGames:
     path: ""
+    icon: 'chat.png'
     lint:
       phpstan: false
 ...
