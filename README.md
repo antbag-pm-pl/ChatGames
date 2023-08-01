@@ -1,7 +1,5 @@
-<a href="https://poggit.pmmp.io/p/ChatGames"><img src="https://poggit.pmmp.io/shield.api/ChatGames"></a>
-[![](https://poggit.pmmp.io/shield.api/ChatGames)](https://poggit.pmmp.io/p/ChatGames)
 
-<a href="https://poggit.pmmp.io/p/ChatGames"><img src="https://poggit.pmmp.io/shield.state/ChatGames"></a>
+![chat](https://github.com/antbag-dev/ChatGames/assets/84870445/16595148-f280-4201-9ed9-d2ff3521e710)
 
 # ChatGames
 This is a pocketmine [PMMP] plugin which implements chat games into Minecraft. It's purely configurable through conifg and you can add as much words you want in the config
