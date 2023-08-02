@@ -50,7 +50,6 @@ class Main extends PluginBase implements Listener{
     public function scrambleWord() {
         $this->word = $this->words[array_rand($this->words)];
             $this->reward = mt_rand($this->getConfig()->get("Min-Reward"), $this->getConfig()->get("Max-Reward"));
-        }
         foreach($this->getServer()->getOnlinePlayers() as $player) {
             $player->sendMessage("§bUnscramble The Word §e". str_shuffle($this->word) ." §bWill Receive $". $this->reward ."!");
         }
