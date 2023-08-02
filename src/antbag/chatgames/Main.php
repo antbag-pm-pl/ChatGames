@@ -10,14 +10,12 @@ use cooldogedev\BedrockEconomy\api\BedrockEconomyAPI;
 class Main extends PluginBase implements Listener{
 
     public ?string $word = null;
-    public float $reward;
     public array $words = [];
     public static $instance;
 
     public function onEnable() : void {
         if (!$this->getServer()->getPluginManager()->getPlugin("BedrockEconomy")) {
-            $this->getLogger()->warning("Reward has been disabled since you do not have BedrockEconomy installed on your server.");
-            $this->rewardEnabled = false;
+            $this->getLogger()->warning("Reward has been disabled since you do not have BedrockEconomy installed on your server.");  
         }
         $this->loadWords();
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
@@ -51,15 +49,10 @@ class Main extends PluginBase implements Listener{
 
     public function scrambleWord() {
         $this->word = $this->words[array_rand($this->words)];
-        if ($this->rewardEnabled) {
             $this->reward = mt_rand($this->getConfig()->get("Min-Reward"), $this->getConfig()->get("Max-Reward"));
         }
         foreach($this->getServer()->getOnlinePlayers() as $player) {
-          if ($this->rewardEnabled) {
             $player->sendMessage("§bUnscramble The Word §e". str_shuffle($this->word) ." §bWill Receive $". $this->reward ."!");
-            } else {
-            $player->sendMessage("§bTry to be the first player to unscramble §e". str_shuffle($this->word) . "!");
-            }
         }
         $this->getScheduler()->scheduleDelayedTask(new WordTask($this), (20 * 60 * $this->getConfig()->get("Scramble-Time")));
     }
