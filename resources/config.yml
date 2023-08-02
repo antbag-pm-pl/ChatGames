@@ -2,7 +2,6 @@
 Scramble-Time: 10
 # Min and Max Amount Of Money Players Can Win From Unscrambling The Word First
 # BedrockEconomy is needed if reward is enabled
-Reward-Enabled: true
 Min-Reward: 1000
 Max-Reward: 5000
 Words:
