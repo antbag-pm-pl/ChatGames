@@ -68,7 +68,7 @@ class Main extends PluginBase implements Listener{
     }
 
    public function onCommand(CommandSender $p, Command $command, string $label, array $args): bool{
-		if($command->getName() === "settopmine"){
+		if($command->getName() === "wordlb"){
 			if(!$p instanceof Player) return false;
 			$config = new Config($this->getDataFolder()."config.yml", Config::YAML);
 			$config->set("positions", [round($p->getPosition()->getX()), round($p->getPosition()->getY()), round($p->getPosition()->getZ())]);
