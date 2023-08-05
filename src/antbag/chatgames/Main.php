@@ -37,6 +37,7 @@ class Main extends PluginBase implements Listener{
         $this->getScheduler()->scheduleDelayedTask(new WordTask($this), (20 * 60 * $this->getConfig()->get("Scramble-Time")));
         self::$instance = $this;
     }
+    }
 
     public function onChat(playerChatEvent $event) {
         $player = $event->getPlayer();
