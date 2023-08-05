@@ -7,14 +7,7 @@ use pocketmine\event\player\PlayerChatEvent;
 use pocketmine\event\Listener;
 use cooldogedev\BedrockEconomy\api\BedrockEconomyAPI;
 
- use pocketmine\player\Player; 
- use pocketmine\Server;
- use pocketmine\event\player\PlayerJoinEvent;
 
-use pocketmine\utils\Config;
-use pocketmine\math\Vector3;
-use pocketmine\command\Command;
-use pocketmine\command\CommandSender;
 
 class Main extends PluginBase implements Listener{
 
@@ -26,13 +19,6 @@ class Main extends PluginBase implements Listener{
         if (!$this->getServer()->getPluginManager()->getPlugin("BedrockEconomy")) {
             $this->getLogger()->warning("Reward has been disabled since you do not have BedrockEconomy installed on your server.");
         }
-        @mkdir($this->getDataFolder() . "topten_data");
-		$this->saveResource("setting.yml");
-		$this->config = (new Config($this->getDataFolder()."config.yml", Config::YAML))->getAll();
-		if(empty($this->config["positions"])){
-			$this->getServer()->getLogger()->Info("Please Set Location");
-			return;
-        
         $this->loadWords();
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
         $this->getScheduler()->scheduleDelayedTask(new WordTask($this), (20 * 60 * $this->getConfig()->get("Scramble-Time")));
@@ -62,78 +48,9 @@ class Main extends PluginBase implements Listener{
       $name = $player->getName();
       $this->getServer()->broadcastMessage("§6" . $player->getName() . " Guessed The Word Correctly.\n§6The Word Was §e" . $this->word);
       BedrockEconomyAPI::legacy()->addToPlayerBalance($player, $this->reward);
-      $data = new Config($this->getDataFolder() . "topten_data/top.yml", Config::YAML);
-	  $up = $data->get($name);
-	  $data->set($name, $up + 1);
-	  $data->save();
-        
     }
 
-   public function onCommand(CommandSender $p, Command $command, string $label, array $args): bool{
-		if($command->getName() === "wordlb"){
-			if(!$p instanceof Player) return false;
-			$config = new Config($this->getDataFolder()."location.yml", Config::YAML);
-			$config->set("positions", [round($p->getPosition()->getX()), round($p->getPosition()->getY()), round($p->getPosition()->getZ())]);
-			
-			$config->save();
-			
-			
-              }
-		return true;
-	}
-
-    public function createtopten(PlayerJoinEvent $event){
-		$player = $event->getPlayer();
-		$w = $this->getConfig()->get("world");
-		$world = $player->getWorld()->getDisplayName() === "$w";
-		$top = $this->getConfig()->get("enable");	
-
-		if($world){
-			if($top == "true"){
-				$this->getLeaderBoard();
-			}
-		}
-	}
-
-    public function settopdata(PlayerJoinEvent $event){
-		$player = $event->getPlayer();
-		$name = $player->getName();		
-
-		$farm = new Config($this->getDataFolder() . "topten_data/top.yml", Config::YAML);
-		if(!$farm->exists($name)){
-			$farm->set($name, 0);
-			$farm->save();
-		}
-	}
-	
-	public function getLeaderBoard(): string{
-    $data = new Config($this->getDataFolder() . "topten_data/top.yml", Config::YAML);
-    $setting = new Config($this->getDataFolder() . "setting.yml", Config::YAML);
-    $swallet = $data->getAll();
-    $message = "";
-    $top = $setting->get("title-lb");
     
-    if (count($swallet) > 0) {
-        arsort($swallet);
-        $i = 1;
-        foreach ($swallet as $name => $amount) {
-            $tags = str_replace(["{num}", "{player}", "{amount}"], [$i, $name, $amount], $setting->get("text-lb")) . "\n";
-            $message .= "\n ".$tags;
-            
-            if ($i >= 10) {
-                break;
-            }
-            ++$i;
-        }
-    }
-	$return = (string) $top.$message;
-    	return $return;
-}
-
-	public function getParticles(): array{
-		return $this->particle;
-	}
-        
 
     public function scrambleWord() {
         $this->word = $this->words[array_rand($this->words)];
