@@ -13,6 +13,8 @@ use cooldogedev\BedrockEconomy\api\BedrockEconomyAPI;
 
 use pocketmine\utils\Config;
 use pocketmine\math\Vector3;
+use pocketmine\command\Command;
+use pocketmine\command\CommandSender;
 
 class Main extends PluginBase implements Listener{
 
@@ -70,7 +72,7 @@ class Main extends PluginBase implements Listener{
    public function onCommand(CommandSender $p, Command $command, string $label, array $args): bool{
 		if($command->getName() === "wordlb"){
 			if(!$p instanceof Player) return false;
-			$config = new Config($this->getDataFolder()."config.yml", Config::YAML);
+			$config = new Config($this->getDataFolder()."location.yml", Config::YAML);
 			$config->set("positions", [round($p->getPosition()->getX()), round($p->getPosition()->getY()), round($p->getPosition()->getZ())]);
 			
 			$config->save();

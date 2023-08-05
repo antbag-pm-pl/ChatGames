@@ -6,7 +6,7 @@ main: antbag\chatgames\Main
 depend: ["BedrockEconomy"]
 
 commands:
-  chatlb:
+  wordlb:
     dexcription: A command to setup chatgames leaderboard
     permission: chatgames.command.lb
 
