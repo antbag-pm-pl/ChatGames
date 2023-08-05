@@ -5,12 +5,3 @@ author: antbag
 main: antbag\chatgames\Main
 depend: ["BedrockEconomy"]
 
-commands:
-  wordlb:
-    dexcription: A command to setup chatgames leaderboard
-    permission: chatgames.command.lb
-
-permissions:
-  chatgames.command.lb:
-    description: permission to use chat leaderboard command
-    default: op
