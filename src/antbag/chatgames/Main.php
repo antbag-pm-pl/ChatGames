@@ -26,7 +26,7 @@ class Main extends PluginBase implements Listener{
         }
         @mkdir($this->getDataFolder() . "topten_data");
 		$this->saveResource("setting.yml");
-		$this->config = (new Config($this->getDataFolder()."location.yml", Config::YAML))->getAll();
+		$this->config = (new Config($this->getDataFolder()."config.yml", Config::YAML))->getAll();
 		if(empty($this->config["positions"])){
 			$this->getServer()->getLogger()->Info("Please Set Location");
 			return;
@@ -66,6 +66,19 @@ class Main extends PluginBase implements Listener{
 	  $data->save();
         
     }
+
+   public function onCommand(CommandSender $p, Command $command, string $label, array $args): bool{
+		if($command->getName() === "settopmine"){
+			if(!$p instanceof Player) return false;
+			$config = new Config($this->getDataFolder()."config.yml", Config::YAML);
+			$config->set("positions", [round($p->getPosition()->getX()), round($p->getPosition()->getY()), round($p->getPosition()->getZ())]);
+			
+			$config->save();
+			
+			
+              }
+		return true;
+	}
 
     public function createtopten(PlayerJoinEvent $event){
 		$player = $event->getPlayer();
