@@ -9,7 +9,6 @@ use cooldogedev\BedrockEconomy\api\BedrockEconomyAPI;
 
  use pocketmine\player\Player; 
  use pocketmine\Server;
- use pocketmine\event\Listener;
  use pocketmine\event\player\PlayerJoinEvent;
 
 use pocketmine\utils\Config;
