@@ -3,4 +3,14 @@ version: 1.0.0-ALPHA-0.1
 api: 5.0.0
 author: antbag
 main: antbag\chatgames\Main
-softdepend: ["BedrockEconomy"]
+depend: ["BedrockEconomy"]
+
+commands:
+  chatlb:
+    dexcription: A command to setup chatgames leaderboard
+    permission: chatgames.command.lb
+
+permissions:
+  chatgames.command.lb:
+    description: permission to use chat leaderboard command
+    default: op
