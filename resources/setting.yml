@@ -1,7 +1,0 @@
-# use {num} to get top player number
-# use {player} to get top player name
-# use {amount} to get the number of player mines
-# use § to get colored text
-
-title-lb: "§7✦ §6TopGuesser §7✦"
-text-lb: "§c#{num} §8{player} §8gussed §c{amount} §8words"

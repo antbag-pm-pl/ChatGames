@@ -6,7 +6,7 @@ use pocketmine\plugin\PluginBase;
 use pocketmine\event\player\PlayerChatEvent;
 use pocketmine\event\Listener;
 use cooldogedev\BedrockEconomy\api\BedrockEconomyAPI;
-
+use onebone\economyapi\EconomyAPI;
 
 
 class Main extends PluginBase implements Listener{
@@ -16,18 +16,21 @@ class Main extends PluginBase implements Listener{
     public static $instance;
 
     public function onEnable() : void {
-        if (!$this->getServer()->getPluginManager()->getPlugin("BedrockEconomy")) {
-            $this->getLogger()->warning("Reward has been disabled since you do not have BedrockEconomy installed on your server.");
-        }
+      if($this->getConfig()->get("EconomyAPI") == true && $this->getConfig()->get("BedrockEconomy") == true) {
+        $this->getLogger()->critical("EconomyAPI and BedrockEconomy are both set to true this will cuase errors therefore, the plugin is disabling");
+        $this->getServer()->getPluginManager()->disablePlugin($this);
+        return;
+      }
+      
         $this->loadWords();
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
         $this->getScheduler()->scheduleDelayedTask(new WordTask($this), (20 * 60 * $this->getConfig()->get("Scramble-Time")));
-        self::$instance = $this;
-    }
+      self::$instance = $this;
+  }
 
     public function onChat(playerChatEvent $event) {
-        $player = $event->getPlayer();
-        $msg = $event->getMessage();
+      $player = $event->getPlayer();
+      $msg = $event->getMessage();
 
         if (strtolower($msg) == strtolower($this->word)) {
             $event->cancel();
@@ -39,14 +42,20 @@ class Main extends PluginBase implements Listener{
 
 
     public function loadWords() {
-        foreach($this->getConfig()->get("Words") as $word) {
-            $this->words[] = $word;
+      foreach($this->getConfig()->get("Words") as $word) {
+        $this->words[] = $word;
         }
     }
     public function rewardPlayer($player)  {
       $name = $player->getName();
       $this->getServer()->broadcastMessage("§6" . $player->getName() . " Guessed The Word Correctly.\n§6The Word Was §e" . $this->word);
-      BedrockEconomyAPI::legacy()->addToPlayerBalance($player, $this->reward);
+      if($this->getServer()->getPluginManager()->getPlugin("EconomyAPI") != null && $this->getConfig()->get("BedrockEconomy") == true) {
+        BedrockEconomyAPI::legacy()->addToPlayerBalance($player, $this->reward);
+      } elseif ($this->getServer()->getPluginManager()->getPlugin("BedrockEconomy") != null && $this->getConfig()->get("EconomyAPI") == true) {
+        EconomyAPI::getInstance()->addMoney($player, $this->reward);
+      } else {
+        $this->getLogger->critical("Pls select an economy from config");
+      }
     }
 
     

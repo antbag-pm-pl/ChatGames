@@ -1,7 +1,7 @@
 # How Much Time In Minutes Players Have To Guess The Word
 Scramble-Time: 10
 # Min and Max Amount Of Money Players Can Win From Unscrambling The Word First
-# BedrockEconomy is needed if reward is enabled
+# Economy is needed
 Min-Reward: 1000
 Max-Reward: 5000
 Words:
@@ -10,3 +10,6 @@ Words:
 - Sheep
 - SkyBlock
 - Bedrock
+
+BedrockEconomy: false 
+EconomyAPI: true
