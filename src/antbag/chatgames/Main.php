@@ -7,13 +7,15 @@ use pocketmine\event\player\PlayerChatEvent;
 use pocketmine\event\Listener;
 use cooldogedev\BedrockEconomy\api\BedrockEconomyAPI;
 use onebone\economyapi\EconomyAPI;
-
+use pocketmine\Server;
 
 class Main extends PluginBase implements Listener{
 
     public ?string $word = null;
     public array $words = [];
     public static $instance;
+    private $EconomyAPI = false;
+    private $BedrockEconomy = false;
 
     public function onEnable() : void {
       if($this->getConfig()->get("EconomyAPI") == true && $this->getConfig()->get("BedrockEconomy") == true) {
@@ -54,7 +56,7 @@ class Main extends PluginBase implements Listener{
       } elseif ($this->getServer()->getPluginManager()->getPlugin("BedrockEconomy") != null && $this->getConfig()->get("EconomyAPI") == true) {
         EconomyAPI::getInstance()->addMoney($player, $this->reward);
       } else {
-        $this->getLogger->critical("Pls select an economy from config");
+        Server::getInstance()->broadcastMessage("No Economy is loaded");
       }
     }
 
