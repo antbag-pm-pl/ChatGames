@@ -63,19 +63,19 @@ class Main extends PluginBase implements Listener{
     
 
     public function scrambleWord() {
-        $onlinePlayers = Server::getInstance()->getOnlinePlayers();
-        $playerCount = count($onlinePlayers);
-
-            if($playerCount > $this->getConfig()->get("Online-Players") {
-             $this->word = $this->words[array_rand($this->words)];
-            $this->reward = mt_rand($this->getConfig()->get("Min-Reward"), $this->getConfig()->get("Max-Reward"));
-        foreach($this->getServer()->getOnlinePlayers() as $player) {
-            $player->sendMessage("§bUnscramble The Word §e". str_shuffle($this->word) ." §bWill Receive $". $this->reward ."!");
+      $onlinePlayers = Server::getInstance()->getOnlinePlayers();
+      $playerCount = count($onlinePlayers);
+      
+      if ($playerCount > $this->getConfig()->get("Online-Players")) {
+        $this->word = $this->words[array_rand($this->words)];
+        $this->reward = mt_rand($this->getConfig()->get("Min-Reward"), $this->getConfig()->get("Max-Reward"));
+        foreach ($this->getServer()->getOnlinePlayers() as $player) {
+          $player->sendMessage("§b Unscramble The Word §e". str_shuffle($this->word) ." §bReceive $". $this->reward. "!");
         }
         $this->getScheduler()->scheduleDelayedTask(new WordTask($this), (20 * 60 * $this->getConfig()->get("Scramble-Time")));
+      }
     }
-}
-        
+
     public static function getInstance(): Main{
         return self::$instance;
     }
