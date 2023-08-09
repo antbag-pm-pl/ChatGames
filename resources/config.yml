@@ -13,3 +13,7 @@ Words:
 # Remember to load the economy by setting it true in the config
 BedrockEconomy: false
 EconomyAPI: false
+
+# How many players should be online show chat games would occur so players won't earn coins if alone
+# Make the sure it's greater than 0 and must be numeric to prevent crash
+Online-Players: 2
