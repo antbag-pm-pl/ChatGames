@@ -64,7 +64,7 @@ class Main extends PluginBase implements Listener{
 
     public function scrambleWord() {
         $onlinePlayers = Server::getInstance()->getOnlinePlayers();
-        $playerCount = count($onlinePlayers)
+        $playerCount = count($onlinePlayers);
 
             if($playerCount > $this->getConfig()->get("Online-Players") {
         $this->word = $this->words[array_rand($this->words)];
