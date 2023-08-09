@@ -10,6 +10,6 @@ Words:
 - Sheep
 - SkyBlock
 - Bedrock
-
-BedrockEconomy: false 
-EconomyAPI: true
+# Remember to load the economy by setting it true in the config
+BedrockEconomy: false
+EconomyAPI: false
