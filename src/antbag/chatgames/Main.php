@@ -51,9 +51,11 @@ class Main extends PluginBase implements Listener{
     public function rewardPlayer($player)  {
       $name = $player->getName();
       $this->getServer()->broadcastMessage("§6" . $player->getName() . " Guessed The Word Correctly.\n§6The Word Was §e" . $this->word);
-      if($this->getServer()->getPluginManager()->getPlugin("EconomyAPI") != null && $this->getConfig()->get("BedrockEconomy") == true) {
+      if($this->getServer()->getPluginManager()->getPlugin("BedrockEconomy") != null && $this->getConfig()->get("BedrockEconomy") == true) {
+        $this->BedrockEconomy = true;
         BedrockEconomyAPI::legacy()->addToPlayerBalance($player, $this->reward);
-      } elseif ($this->getServer()->getPluginManager()->getPlugin("BedrockEconomy") != null && $this->getConfig()->get("EconomyAPI") == true) {
+      } elseif ($this->getServer()->getPluginManager()->getPlugin("EconomyAPI") != null && $this->getConfig()->get("EconomyAPI") == true) {
+        $this->EconomyAPI = true;
         EconomyAPI::getInstance()->addMoney($player, $this->reward);
       } else {
         Server::getInstance()->broadcastMessage("No Economy is loaded");
