@@ -32,7 +32,7 @@ class Main extends PluginBase implements Listener {
 
         $this->loadWords();
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
-        $this->getScheduler()->scheduleDelayedTask(new WordTask($this), (20 * 60 * $this->getConfig()->get("Scramble-Time")));
+        $this->getScheduler()->scheduleDelayedTask(new WordTask(), (20 * 60 * $this->getConfig()->get("Scramble-Time")));
     }
 
     public function getEconomyProvider(): EconomyProvider {
