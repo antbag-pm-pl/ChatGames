@@ -1,18 +1,23 @@
 # How Much Time In Minutes Players Have To Guess The Word
 Scramble-Time: 10
+
 # Min and Max Amount Of Money Players Can Win From Unscrambling The Word First
 # Economy is needed
 Min-Reward: 1000
 Max-Reward: 5000
+
 Words:
 - Minecraft
 - Dragon
 - Sheep
 - SkyBlock
 - Bedrock
-# Remember to load the economy by setting it true in the config
-BedrockEconomy: false
-EconomyAPI: false
+
+# Economy Options
+economy:
+  # Economy provider to use
+  # Supported options:  "bedrockeconomy", "economyapi", "xp"
+  provider: bedrockeconomy
 
 # How many players should be online show chat games would occur so players won't earn coins if alone
 # Make the sure it's greater than 0 and must be numeric to prevent crash

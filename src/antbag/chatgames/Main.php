@@ -2,37 +2,46 @@
 
 namespace antbag\chatgames;
 
+use DaPigGuy\libPiggyEconomy\exceptions\MissingProviderDependencyException;
+use DaPigGuy\libPiggyEconomy\exceptions\UnknownProviderException;
+use DaPigGuy\libPiggyEconomy\libPiggyEconomy;
+use DaPigGuy\libPiggyEconomy\providers\EconomyProvider;
 use pocketmine\plugin\PluginBase;
 use pocketmine\event\player\PlayerChatEvent;
 use pocketmine\event\Listener;
-use cooldogedev\BedrockEconomy\api\BedrockEconomyAPI;
-use onebone\economyapi\EconomyAPI;
-use pocketmine\Server;
 
-class Main extends PluginBase implements Listener{
+class Main extends PluginBase implements Listener {
 
+    private int $reward;
     public ?string $word = null;
     public array $words = [];
     public static $instance;
-    private $EconomyAPI = false;
-    private $BedrockEconomy = false;
 
-    public function onEnable() : void {
-      if($this->getConfig()->get("EconomyAPI") == true && $this->getConfig()->get("BedrockEconomy") == true) {
-        $this->getLogger()->critical("EconomyAPI and BedrockEconomy are both set to true this will cuase errors therefore, the plugin is disabling");
-        $this->getServer()->getPluginManager()->disablePlugin($this);
-        return;
-      }
-      
+    /** @var EconomyProvider */
+    private $economyProvider;
+
+    /**
+     * @throws MissingProviderDependencyException
+     * @throws UnknownProviderException
+     */
+    protected function onEnable(): void {
+        self::$instance = $this;
+
+        libPiggyEconomy::init();
+        $this->economyProvider = libPiggyEconomy::getProvider($this->getConfig()->get("economy"));
+
         $this->loadWords();
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
         $this->getScheduler()->scheduleDelayedTask(new WordTask($this), (20 * 60 * $this->getConfig()->get("Scramble-Time")));
-      self::$instance = $this;
-  }
+    }
+
+    public function getEconomyProvider(): EconomyProvider {
+        return $this->economyProvider;
+    }
 
     public function onChat(playerChatEvent $event) {
-      $player = $event->getPlayer();
-      $msg = $event->getMessage();
+        $player = $event->getPlayer();
+        $msg = $event->getMessage();
 
         if (strtolower($msg) == strtolower($this->word)) {
             $event->cancel();
@@ -44,41 +53,30 @@ class Main extends PluginBase implements Listener{
 
 
     public function loadWords() {
-      foreach($this->getConfig()->get("Words") as $word) {
-        $this->words[] = $word;
+        foreach ($this->getConfig()->get("Words") as $word) {
+            $this->words[] = $word;
         }
     }
-    public function rewardPlayer($player)  {
-      $name = $player->getName();
-      $this->getServer()->broadcastMessage("§6" . $player->getName() . " Guessed The Word Correctly.\n§6The Word Was §e" . $this->word);
-      if($this->getServer()->getPluginManager()->getPlugin("BedrockEconomy") != null && $this->getConfig()->get("BedrockEconomy") == true) {
-        $this->BedrockEconomy = true;
-        BedrockEconomyAPI::legacy()->addToPlayerBalance($player, $this->reward);
-      } elseif ($this->getServer()->getPluginManager()->getPlugin("EconomyAPI") != null && $this->getConfig()->get("EconomyAPI") == true) {
-        $this->EconomyAPI = true;
-        EconomyAPI::getInstance()->addMoney($player, $this->reward);
-      } else {
-        Server::getInstance()->broadcastMessage("No Economy is loaded");
-      }
-    }
 
-    
+    public function rewardPlayer($player) {
+        $this->getServer()->broadcastMessage("§6" . $player->getName() . " Guessed The Word Correctly.\n§6The Word Was §e" . $this->word);
+        $this->getEconomyProvider()->giveMoney($player, (int) $this->reward);
+    }
 
     public function scrambleWord() {
-      $onlinePlayers = Server::getInstance()->getOnlinePlayers();
-      $playerCount = count($onlinePlayers);
-      
-      if ($playerCount > $this->getConfig()->get("Online-Players")) {
-        $this->word = $this->words[array_rand($this->words)];
-        $this->reward = mt_rand($this->getConfig()->get("Min-Reward"), $this->getConfig()->get("Max-Reward"));
-        foreach ($this->getServer()->getOnlinePlayers() as $player) {
-          $player->sendMessage("§b Unscramble The Word §e". str_shuffle($this->word) ." §bReceive $". $this->reward. "!");
+        $onlinePlayers = $this->getServer()->getOnlinePlayers();
+
+        if (count($onlinePlayers) > $this->getConfig()->get("Online-Players")) {
+            $this->word = $this->words[array_rand($this->words)];
+            $this->reward = mt_rand($this->getConfig()->get("Min-Reward"), $this->getConfig()->get("Max-Reward"));
+            foreach ($this->getServer()->getOnlinePlayers() as $player) {
+                $player->sendMessage("§b Unscramble The Word §e" . str_shuffle($this->word) . " §bReceive $" . $this->reward . "!");
+            }
+            $this->getScheduler()->scheduleDelayedTask(new WordTask($this), (20 * 60 * $this->getConfig()->get("Scramble-Time")));
         }
-        $this->getScheduler()->scheduleDelayedTask(new WordTask($this), (20 * 60 * $this->getConfig()->get("Scramble-Time")));
-      }
     }
 
-    public static function getInstance(): Main{
+    public static function getInstance(): Main {
         return self::$instance;
     }
 }
