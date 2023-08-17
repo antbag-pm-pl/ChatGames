@@ -72,7 +72,7 @@ class Main extends PluginBase implements Listener {
             foreach ($this->getServer()->getOnlinePlayers() as $player) {
                 $player->sendMessage("§b Unscramble The Word §e" . str_shuffle($this->word) . " §bReceive $" . $this->reward . "!");
             }
-            $this->getScheduler()->scheduleDelayedTask(new WordTask($this), (20 * 60 * $this->getConfig()->get("Scramble-Time")));
+            $this->getScheduler()->scheduleDelayedTask(new WordTask(), (20 * 60 * $this->getConfig()->get("Scramble-Time")));
         }
     }
 
