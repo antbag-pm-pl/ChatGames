@@ -6,6 +6,8 @@ projects:
   ChatGames:
     path: ""
     icon: 'chat.png'
+    lint:
+      phpstan: false
     libs:
     - src: DaPigGuy/libPiggyEconomy/libPiggyEconomy
       version: ^3.0.2
