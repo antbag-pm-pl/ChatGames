@@ -43,7 +43,7 @@ class Main extends PluginBase implements Listener {
         $player = $event->getPlayer();
         $msg = $event->getMessage();
 
-        if (strtolower($msg) == strtolower($this->word)) {
+        if ($msg !== null && $this->word !== null && strtolower($msg) == strtolower($this->word)) {
             $event->cancel();
             $this->rewardPlayer($player);
             $this->loadWords();
