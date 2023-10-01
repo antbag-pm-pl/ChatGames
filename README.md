@@ -1,4 +1,4 @@
-# ChatGames Plugin for Minecraft
+# ChatGames Plugin for Pocketmine
 
 Enhance your Minecraft experience with the **ChatGames** plugin for Pocketmine [PMMP]. This versatile plugin introduces interactive chat games seamlessly into your gameplay. With an intuitive configuration system, you have the freedom to customize the games by adding an unlimited number of words to the configuration file. Elevate your gameplay by downloading the plugin from the official source [![Download Here](https://poggit.pmmp.io/shield.dl.total/ChatGames)].
 
