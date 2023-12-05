@@ -74,6 +74,9 @@ class Main extends PluginBase implements Listener {
             }
             $this->getScheduler()->scheduleDelayedTask(new WordTask(), (20 * 60 * $this->getConfig()->get("Scramble-Time")));
         }
+      public function ORQ() {
+          
+      }
     }
 
     public static function getInstance(): Main {
