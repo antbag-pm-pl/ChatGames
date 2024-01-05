@@ -59,7 +59,7 @@ class Main extends PluginBase implements Listener {
     }
 
     public function rewardPlayer($player) {
-        $this->getServer()->broadcastMessage("§6" . $player->getName() . " Guessed The Word Correctly.\n§6The Word Was §e" . $this->word);
+        $this->getServer()->broadcastMessage("§6" . $player->getName() . " Guessed The Word Correctly.\n§cThe Word Was " . $this->word);
         $this->getEconomyProvider()->giveMoney($player, (int) $this->reward);
     }
 
@@ -70,7 +70,7 @@ class Main extends PluginBase implements Listener {
             $this->word = $this->words[array_rand($this->words)];
             $this->reward = mt_rand($this->getConfig()->get("Min-Reward"), $this->getConfig()->get("Max-Reward"));
             foreach ($this->getServer()->getOnlinePlayers() as $player) {
-                $player->sendMessage("§b Unscramble The Word §e" . str_shuffle($this->word) . " §bReceive $" . $this->reward . "!");
+                $player->sendMessage("§b Unscramble The Word §c" . str_shuffle($this->word) . " §eReceive $" . $this->reward . "!");
             }
             $this->getScheduler()->scheduleDelayedTask(new WordTask(), (20 * 60 * $this->getConfig()->get("Scramble-Time")));
         }
