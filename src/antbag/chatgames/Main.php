@@ -49,6 +49,7 @@ class Main extends PluginBase implements Listener {
             $this->loadWords();
             $this->word = null;
         }
+      if (
     }
 
 
@@ -92,6 +93,6 @@ class Main extends PluginBase implements Listener {
         $correctAnswer = $num1 - $num2;
         $question = "What is $num1 - $num2 ?";
       }
-    $this->sendMathsQuestion($player, $question, $correctAnswer);
+    $this->Maths($player, $question, $correctAnswer);
     }
 }
