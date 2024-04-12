@@ -79,20 +79,6 @@ class Main extends PluginBase implements Listener {
 
     public static function getInstance(): Main {
         return self::$instance;
-    }
-
-    public function Maths(Player $player) {
-        $num1 = mt_rand(10, 999);
-        $num2 = mt_rand(10, 999);
-        $operator = mt_rand(0, 1) ? '+' : '-';
-
-        if ($operator == '+') {
-        $correctAnswer = $num1 + $num2;
-        $question = "What is $num1 + $num2 ?";
-        } else {
-        $correctAnswer = $num1 - $num2;
-        $question = "What is $num1 - $num2 ?";
-      }
-    $this->Maths($player, $question, $correctAnswer);
+    
     }
 }
